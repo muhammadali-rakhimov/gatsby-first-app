@@ -3,21 +3,22 @@ import { useState } from "react";
 
 const imageArray = [
   {
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
   },
   {
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
   },
   {
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
   },
 ];
 
 const IndexPage = () => {
   const [current, setCurrent] = useState(0);
+  const [hide, setHide] = useState(false);
   const length = imageArray.length;
 
   const nextSlide = () => {
@@ -32,6 +33,10 @@ const IndexPage = () => {
     return null;
   }
 
+  const handleHide = () => {
+    setHide(!hide);
+  };
+
   return (
     <main>
       <title>Testing Image Slider</title>
@@ -43,19 +48,39 @@ const IndexPage = () => {
           justifyContent: "center",
         }}
       >
+        <button onClick={handleHide}>X</button>
+      </div>
+      <br />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <button onClick={prevSlide}>&#60;</button>
-        {imageArray.map((slide, index) => {
-          return (
-            <div
-              className={index === current ? "slide active" : "slide"}
-              key={index}
-            >
-              {index === current && (
-                <img src={slide.image} alt="travel image" className="image" />
-              )}
-            </div>
-          );
-        })}
+        {hide ? (
+          <div>
+            <h1>Images Not Visible.</h1>
+            <h2>Toggle For Rendering</h2>
+          </div>
+        ) : (
+          imageArray.map((slide, index) => {
+            return (
+              <div
+                className={index === current ? "slide active" : "slide"}
+                key={index}
+              >
+                {index === current && (
+                  <img
+                    src={slide.imageUrl}
+                    alt="travel image"
+                    className="image"
+                  />
+                )}
+              </div>
+            );
+          })
+        )}
 
         <button onClick={nextSlide}>&#62;</button>
       </div>
